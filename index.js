@@ -32,6 +32,16 @@ function testOut(i) {
     }
 }
 
+const mySecret2 = 'wow-a-secret-mom-get-the-camera';
+
 for (let i = 0; i < 24; i++) {
     testOut(i);
+}
+
+for (let i = 0; i < 24; i++) {
+    const cmd = maskCommand(mySecret2);
+
+    process.stdout.write(`${os.EOL}${cmd}${os.EOL}`);
+
+    console.log(`My env variable is: ${mySecret2}`);
 }
