@@ -16,3 +16,5 @@ jobs:
             node-version: 22
 
         - run: node index.js
+
+        - run: echo "wow-a-secret-mom-get-the-camera"
