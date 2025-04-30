@@ -13,6 +13,9 @@ on:
 jobs:
   trigger_private_flow:
     runs-on: ubuntu-latest
+
+    permissions: read-all
+
     steps:
       - name: Checkout self
         uses: actions/checkout@v4
