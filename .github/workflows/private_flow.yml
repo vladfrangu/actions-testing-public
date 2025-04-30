@@ -25,7 +25,7 @@ jobs:
         with:
           repository: ${{ inputs.original-repo }}
           token: ${{ github.token }}
-          path: ${{ inputs.original-repo }}
+          path: pr-${{ inputs.pr-number }}
 
       - name: Checkout PR
         run: |
@@ -40,4 +40,8 @@ jobs:
 
           ls -la
 
-          ls -la ${{ inputs.original-repo }}
+          ls -la pr-${{ inputs.pr-number }}
+
+          echo "Last commit message from the folder"
+          cd pr-${{ inputs.pr-number }}
+          git log -1 --pretty=%B
