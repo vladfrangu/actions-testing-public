@@ -45,3 +45,14 @@ jobs:
           echo "Last commit message from the folder"
           cd pr-${{ inputs.pr-number }}
           git log -1 --pretty=%B
+          echo "last commit hash"
+          git rev-parse HEAD
+
+      - name: Move to the original repo
+        run: cd pr-${{ inputs.pr-number }}
+
+      - name: Print last commit message from the original repo
+        run: git log -1 --pretty=%B
+
+      - name: Print last commit hash from the original repo
+        run: git rev-parse HEAD
