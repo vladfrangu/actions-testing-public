@@ -1,3 +1,5 @@
+name: Private Flow
+
 on:
   workflow_dispatch:
     inputs:
@@ -12,5 +14,27 @@ jobs:
   trigger_private_flow:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event.inputs.pr-number }}
-      - run: echo ${{ github.event.inputs.original-repo }}
+      - name: Checkout self
+        uses: actions/checkout@v4
+
+      - name: Checkout original repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.original-repo }}
+          token: ${{ github.token }}
+          path: ${{ inputs.original-repo }}
+
+      - name: Checkout PR
+        run: |
+          gh pr checkout ${{ inputs.pr-number }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Print everything
+        run: |
+          echo "PR number: ${{ inputs.pr-number }}"
+          echo "Original repo: ${{ inputs.original-repo }}"
+
+          ls -la
+
+          ls -la ${{ inputs.original-repo }}
