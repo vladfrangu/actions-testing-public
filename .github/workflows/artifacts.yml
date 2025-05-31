@@ -24,6 +24,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install bun (Windows ARM64)
+        if: matrix.label == 'windows-arm64'
+        run: |
+          irm bun.sh/install.ps1 | iex
+          bun --version
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -45,10 +51,4 @@ jobs:
           merge-multiple: true
 
       - name: List downloaded files
-        run: ls -la bundles
-
-      - name: Unzip bundles
-        run: unzip bundles/*.zip -d bundles
-
-      - name: List after unzipping files
         run: ls -la bundles
