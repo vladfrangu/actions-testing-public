@@ -28,7 +28,12 @@ jobs:
         if: matrix.label == 'windows-arm64'
         run: |
           irm bun.sh/install.ps1 | iex
-          bun --version
+
+          Join-Path (Resolve-Path ~).Path ".bun\bin" >> $env:GITHUB_PATH
+
+      - name: Print bun version
+        if: matrix.label == 'windows-arm64'
+        run: bun --version
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
