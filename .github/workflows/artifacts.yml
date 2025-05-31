@@ -1,0 +1,52 @@
+name: Artifacts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload:
+    name: Upload artifacts
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: unix
+          - os: windows-latest
+            label: windows-x64
+          - os: windows-11-arm
+            label: windows-arm64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: apify-cli-bundles-${{ matrix.label }}
+          path: bundles/${{ matrix.label }}/**
+
+  download:
+    name: Download artifacts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: apify-cli-bundles-*
+          path: bundles
+          merge-multiple: true
+
+      - name: List downloaded files
+        run: ls -la bundles
+
+      - name: Unzip bundles
+        run: unzip bundles/*.zip -d bundles
+
+      - name: List after unzipping files
+        run: ls -la bundles
