@@ -15,7 +15,7 @@ jobs:
             label: unix
           - os: windows-latest
             label: windows-x64
-          - os: windows-11-arm
+          - os: windows-latest
             label: windows-arm64
 
     runs-on: ${{ matrix.os }}
@@ -33,6 +33,8 @@ jobs:
   download:
     name: Download artifacts
     runs-on: ubuntu-latest
+
+    needs: [upload]
 
     steps:
       - name: Download all artifacts
